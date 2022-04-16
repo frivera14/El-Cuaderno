@@ -1,15 +1,16 @@
 const router = require('express').Router();
-const { notes } = require('../../db/notes.json')
+const notes = require('../../db/notes.json')
+const fs = require('fs')
 
-
-router.get('/api/notes', (req, res) => {
+router.get('/notes', (req, res) => {
 
     res.json(notes)
 });
 
-router.post('/api/notes', (req, res) => {
-    const note = JSON.parse(req.body)
+router.post('/notes', (req, res) => {
+    const note = {...req.body, id:notes.length + 1}
     notes.push(note)
+    fs.writeFile('../../db/notes.json', JSON.stringify(notes))
     res.json(note)
 
 })
