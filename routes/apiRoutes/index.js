@@ -1,21 +1,17 @@
 const router = require('express').Router();
-const { renderNoteList, saveNote } =  require('../../public/assets/js/index')
 const { notes } = require('../../db/notes.json')
 
 
 router.get('/api/notes', (req, res) => {
-    let results = notes
-    if (req.query) {
-        results = renderNoteList(req.query, results)
-    } 
-    res.json(results)
+
+    res.json(notes)
 });
 
 router.post('/api/notes', (req, res) => {
-    req.body = notes.length.toString();
+    const note = JSON.parse(req.body)
+    notes.push(note)
+    res.json(note)
 
-    const newNote = saveNote(req.body, notes);
-    res.json(newNote)
 })
 
 module.exports = router
