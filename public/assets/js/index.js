@@ -1,8 +1,11 @@
-var noteTitle = document.querySelector('.note-title');
+var noteTitle = document.querySelector('.note-title');  
 var noteText = document.querySelector('.note-textarea');
-var saveNoteBtn = document.querySelector('.save-note');
-var newNoteBtn = document.querySelector('.new-note');
+var saveNoteBtn = document.querySelector('.save-note'); 
+var newNoteBtn = document.querySelector('.new-note'); 
 var noteList = document.querySelectorAll('.list-container .list-group');
+
+
+
 
 
 // Show an element
@@ -30,7 +33,6 @@ const saveNote = (note) =>
   fetch('/api/notes', {
     method: 'POST',
     headers: {
-      Accept: 'application/json',
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(note),
@@ -168,11 +170,11 @@ const renderNoteList = async (notes) => {
 // Gets notes from the db and renders them to the sidebar
 const getAndRenderNotes = () => getNotes().then(renderNoteList);
 
-
 saveNoteBtn.addEventListener('click', handleNoteSave);
 newNoteBtn.addEventListener('click', handleNewNoteView);
 noteTitle.addEventListener('keyup', handleRenderSaveBtn);
 noteText.addEventListener('keyup', handleRenderSaveBtn);
+
 
 
 getAndRenderNotes();
