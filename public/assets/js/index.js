@@ -1,16 +1,9 @@
-let noteTitle;
-let noteText;
-let saveNoteBtn;
-let newNoteBtn;
-let noteList;
+var noteTitle = document.querySelector('.note-title');
+var noteText = document.querySelector('.note-textarea');
+var saveNoteBtn = document.querySelector('.save-note');
+var newNoteBtn = document.querySelector('.new-note');
+var noteList = document.querySelectorAll('.list-container .list-group');
 
-if (window.location.pathname === '/notes') {
-  noteTitle = document.querySelector('.note-title');
-  noteText = document.querySelector('.note-textarea');
-  saveNoteBtn = document.querySelector('.save-note');
-  newNoteBtn = document.querySelector('.new-note');
-  noteList = document.querySelectorAll('.list-container .list-group');
-}
 
 // Show an element
 const show = (elem) => {
@@ -37,6 +30,7 @@ const saveNote = (note) =>
   fetch('/api/notes', {
     method: 'POST',
     headers: {
+      Accept: 'application/json',
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(note),
@@ -104,6 +98,7 @@ const handleNoteView = (e) => {
 
 // Sets the activeNote to and empty object and allows the user to enter a new note
 const handleNewNoteView = (e) => {
+  e.preventDefault();
   activeNote = {};
   renderActiveNote();
 };
@@ -173,11 +168,13 @@ const renderNoteList = async (notes) => {
 // Gets notes from the db and renders them to the sidebar
 const getAndRenderNotes = () => getNotes().then(renderNoteList);
 
-if (window.location.pathname === '/notes') {
-  saveNoteBtn.addEventListener('click', handleNoteSave);
-  newNoteBtn.addEventListener('click', handleNewNoteView);
-  noteTitle.addEventListener('keyup', handleRenderSaveBtn);
-  noteText.addEventListener('keyup', handleRenderSaveBtn);
-}
+
+saveNoteBtn.addEventListener('click', handleNoteSave);
+newNoteBtn.addEventListener('click', handleNewNoteView);
+noteTitle.addEventListener('keyup', handleRenderSaveBtn);
+noteText.addEventListener('keyup', handleRenderSaveBtn);
+
 
 getAndRenderNotes();
+
+module.exports = {renderNoteList, getNotes, saveNote}
